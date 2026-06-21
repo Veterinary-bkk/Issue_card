@@ -31013,7 +31013,8 @@ Error generating stack: ` +
       }
       const Cg = 3,
         Di = ["ass-db-slot-a", "ass-db-slot-b", "ass-db-slot-c"],
-        fh = "ass-logo-v1";
+        fh = "ass-logo-v2",
+        Ug = "https://raw.githubusercontent.com/Veterinary-bkk/Issue_card/refs/heads/main/LOGO.png";
       function $h(e) {
         const r = e.map((i) => `${i.id}|${i.fullName}|${i.citizenId}`).join(";");
         let t = 0;
@@ -31099,9 +31100,9 @@ Error generating stack: ` +
       }
       function nC() {
         try {
-          return localStorage.getItem(fh) || "";
+          return localStorage.getItem(fh) || Ug;
         } catch {
-          return "";
+          return Ug;
         }
       }
       function iC(e) {
@@ -31421,7 +31422,7 @@ Error generating stack: ` +
           (Z(pe), ye("เปลี่ยนโลโก้แล้ว"));
         }
         function oe() {
-          (Z(""), ye("กลับไปใช้ตรากรุงเทพฯ ตั้งต้น"));
+          (Z(Ug), ye("กลับไปใช้ตรากรุงเทพฯ ตั้งต้น"));
         }
         const ie = xt.useMemo(() => {
             const pe = C.trim().toLowerCase();

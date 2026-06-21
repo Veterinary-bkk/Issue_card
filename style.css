@@ -2032,3 +2032,15 @@
   text-overflow: clip !important;
   white-space: nowrap !important;
 }
+
+/* Stack the front and back previews on narrow phone screens. */
+@media (max-width: 639px) {
+  .single-print-area {
+    grid-template-columns: minmax(0, 1fr) !important;
+    row-gap: 1rem !important;
+  }
+
+  .single-print-area > div {
+    min-width: 0;
+  }
+}
