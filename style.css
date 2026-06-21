@@ -1975,6 +1975,12 @@
   font-size: 14.5px !important;
   line-height: 1 !important;
 }
+/* Increase the citizen ID value on the dotted line. */
+.card-actual-size:not(:has(.card-front-title)) .flex.min-w-0.flex-col > div:first-child > div:last-child {
+  font-size: 14px !important;
+  line-height: 1 !important;
+  letter-spacing: 0.08em !important;
+}
 /* Keep issuer position on one line */
 .card-actual-size:not(:has(.card-front-title)) .flex.flex-1.items-center.justify-center .mt-\[0\.3mm\].flex.flex-col {
   white-space: nowrap !important;
@@ -2016,4 +2022,13 @@
   border-bottom-color: #000 !important;
 }
 
-
+/* Increase front-card values that sit on dotted guide lines. */
+.card-front-meta .border-b {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  max-width: none !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: nowrap !important;
+}

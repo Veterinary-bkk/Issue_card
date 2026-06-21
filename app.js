@@ -30057,7 +30057,7 @@ Error generating stack: ` +
                       children: [
                         b.jsx(qo, {
                           label: "เลขที่",
-                          value: toTN(e.cardNumber),
+                          value: formatCardNumber(e.cardNumber),
                           dots: 10,
                         }),
                         b.jsx("div", {
@@ -30247,13 +30247,18 @@ Error generating stack: ` +
           return "๐๑๒๓๔๕๖๗๘๙"[+d];
         });
       }
+      function formatCardNumber(e) {
+        const r = toTN(e || "").split(/\s*\/\s*/).filter(Boolean);
+        return r.length >= 2 ? r[0] + " / " + r.slice(1).join(" / ") : r[0] || "";
+      }
       function l2(e) {
         if (!e) return "";
         const r = /^(\d{4})-(\d{2})-(\d{2})$/.exec(e);
         if (!r) return e;
         const [, t, i, l] = r,
-          f = Number(t) + 543;
-        return toTN(l) + "/" + toTN(i) + "/" + toTN(f);
+          f = Number(t) + 543,
+          a = ["ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ค", "มิ.ย", "ก.ค", "ส.ค", "ก.ย", "ต.ค", "พ.ย", "ธ.ค"][Number(i) - 1] || toTN(i);
+        return toTN(l) + " / " + a + " / " + toTN(String(f).slice(-2));
       }
       function q5({ cards: e, logoSrc: r }) {
         const t = K5(e, 5);
