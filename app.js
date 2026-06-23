@@ -30168,19 +30168,29 @@ Error generating stack: ` +
                       children: b.jsxs("div", {
                         className: "w-full text-center text-[9px] leading-[1.25]",
                         children: [
-                          e.issuerSignature
-                            ? b.jsx("div", {
+                          e.issuerSignature &&
+                            b.jsx("div", {
                                 className: "mb-[0.5mm] flex items-center justify-center",
                                 children: b.jsx("img", {
                                   src: e.issuerSignature,
                                   alt: "ลายเซ็นผู้ออกบัตร",
                                   className: "h-[10mm] object-contain",
                                 }),
-                              })
-                            : b.jsx("div", {
-                                className: "mb-[0.5mm]",
-                                children: "(.............................................................)",
                               }),
+                          b.jsx("div", {
+                            className: `issuer-signature-line${e.issuerSignature ? " has-signature" : ""}`,
+                          }),
+                          b.jsxs("div", {
+                            className: "issuer-name-guide mb-[0.5mm] whitespace-nowrap",
+                            children: [
+                              b.jsx("span", { className: "issuer-name-paren", children: "(" }),
+                              b.jsx("span", {
+                                className: "issuer-name-dotted-line",
+                                children: e.issuerName || "",
+                              }),
+                              b.jsx("span", { className: "issuer-name-paren", children: ")" }),
+                            ],
+                          }),
                           b.jsxs("div", {
                             className: "mt-[0.3mm] flex flex-col items-center justify-center gap-[0.5mm]",
                             children: [
@@ -30260,7 +30270,7 @@ Error generating stack: ` +
           a = ["ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ค", "มิ.ย", "ก.ค", "ส.ค", "ก.ย", "ต.ค", "พ.ย", "ธ.ค"][Number(i) - 1] || toTN(i);
         return toTN(l) + " / " + a + " / " + toTN(String(f).slice(-2));
       }
-      function q5({ cards: e, logoSrc: r }) {
+      function q5({ cards: e, logoSrc: r, issuerSignature: n, issuerName: a }) {
         const t = K5(e, 5);
         return e.length === 0
           ? null
@@ -30276,7 +30286,7 @@ Error generating stack: ` +
                         "div",
                         {
                           className: "print-person-row",
-                          children: [b.jsx(Ag, { card: f, logoSrc: r }), b.jsx(kg, { card: f })],
+                          children: [b.jsx(Ag, { card: f, logoSrc: r }), b.jsx(kg, { card: { ...f, issuerName: a, issuerSignature: n } })],
                         },
                         f.id,
                       ),
@@ -30465,11 +30475,6 @@ Error generating stack: ` +
                   label: "ตำแหน่งผู้ออกบัตร",
                   value: e.issuerPosition,
                   onChange: (v) => d("issuerPosition", v),
-                }),
-                b.jsx($5, {
-                  label: "ลายเซ็นผู้ออกบัตร",
-                  value: e.issuerSignature,
-                  onChange: (v) => d("issuerSignature", v),
                 }),
                 b.jsx(Hl, {
                   label: "วันที่ออกบัตร",
@@ -31014,6 +31019,8 @@ Error generating stack: ` +
       const Cg = 3,
         Di = ["ass-db-slot-a", "ass-db-slot-b", "ass-db-slot-c"],
         fh = "ass-logo-v2",
+        globalIssuerNameKey = "ass-issuer-name-v1",
+        globalIssuerSignatureKey = "ass-issuer-signature-v1",
         Ug = "https://raw.githubusercontent.com/Veterinary-bkk/Issue_card/refs/heads/main/LOGO.png";
       function $h(e) {
         const r = e.map((i) => `${i.id}|${i.fullName}|${i.citizenId}`).join(";");
@@ -31043,6 +31050,7 @@ Error generating stack: ` +
           position: String(e.position ?? "อาสาสมัครสาธารณสุข (อสส.)"),
           issuingOffice: String(e.issuingOffice ?? "สำนักอนามัย กรุงเทพมหานคร"),
           issuerPosition: String(e.issuerPosition ?? "ผู้อำนวยการ"),
+          issuerName: String(e.issuerName ?? ""),
           issuerSignature: String(e.issuerSignature ?? ""),
           issueDate: String(e.issueDate ?? ""),
           expiryDate: String(e.expiryDate ?? ""),
@@ -31109,6 +31117,54 @@ Error generating stack: ` +
         try {
           e ? localStorage.setItem(fh, e) : localStorage.removeItem(fh);
         } catch {}
+      }
+      function readGlobalIssuerSignature() {
+        try {
+          const e = localStorage.getItem(globalIssuerSignatureKey);
+          if (e !== null) return e;
+          for (const r of Di) {
+            const t = localStorage.getItem(r);
+            if (!t) continue;
+            const i = JSON.parse(t),
+              l = (i.data || []).find((f) => f && f.issuerSignature);
+            if (l) {
+              const f = String(l.issuerSignature);
+              return (localStorage.setItem(globalIssuerSignatureKey, f), f);
+            }
+          }
+        } catch {}
+        return "";
+      }
+      function saveGlobalIssuerSignature(e) {
+        try {
+          return (localStorage.setItem(globalIssuerSignatureKey, e), !0);
+        } catch {
+          return !1;
+        }
+      }
+      function readGlobalIssuerName() {
+        try {
+          const e = localStorage.getItem(globalIssuerNameKey);
+          if (e !== null) return e;
+          for (const r of Di) {
+            const t = localStorage.getItem(r);
+            if (!t) continue;
+            const i = JSON.parse(t),
+              l = (i.data || []).find((f) => f && f.issuerName);
+            if (l) {
+              const f = String(l.issuerName);
+              return (localStorage.setItem(globalIssuerNameKey, f), f);
+            }
+          }
+        } catch {}
+        return "";
+      }
+      function saveGlobalIssuerName(e) {
+        try {
+          return (localStorage.setItem(globalIssuerNameKey, e), !0);
+        } catch {
+          return !1;
+        }
       }
       function lC() {
         let e = 0;
@@ -31336,6 +31392,7 @@ Error generating stack: ` +
           position: "อาสาสมัครสาธารณสุข (อสส.)",
           issuingOffice: "สำนักอนามัย กรุงเทพมหานคร",
           issuerPosition: "ผู้อำนวยการ",
+          issuerName: "",
           issuerSignature: "",
           issueDate: "",
           expiryDate: "",
@@ -31414,7 +31471,9 @@ Error generating stack: ` +
           [D, U] = xt.useState(""),
           [C, V] = xt.useState(""),
           [W, G] = xt.useState("form"),
-          [O, Z] = xt.useState(nC);
+          [O, Z] = xt.useState(nC),
+          [globalIssuerName, setGlobalIssuerName] = xt.useState(readGlobalIssuerName),
+          [globalIssuerSignature, setGlobalIssuerSignature] = xt.useState(readGlobalIssuerSignature);
         xt.useEffect(() => {
           iC(O);
         }, [O]);
@@ -31423,6 +31482,17 @@ Error generating stack: ` +
         }
         function oe() {
           (Z(Ug), ye("กลับไปใช้ตรากรุงเทพฯ ตั้งต้น"));
+        }
+        function updateGlobalIssuerSignature(pe) {
+          const be = String(pe || "");
+          (setGlobalIssuerSignature(be),
+            saveGlobalIssuerSignature(be)
+              ? ye(be ? "บันทึกลายเซ็นสำหรับทุกบัตรแล้ว" : "ลบลายเซ็นผู้ออกบัตรแล้ว")
+              : ye("พื้นที่จัดเก็บไม่เพียงพอ ลายเซ็นจะใช้ได้เฉพาะครั้งนี้"));
+        }
+        function updateGlobalIssuerName(pe) {
+          const be = String(pe || "");
+          (setGlobalIssuerName(be), saveGlobalIssuerName(be) || ye("ไม่สามารถบันทึกชื่อผู้ออกบัตรได้"));
         }
         const ie = xt.useMemo(() => {
             const pe = C.trim().toLowerCase();
@@ -31754,6 +31824,7 @@ Error generating stack: ` +
                 position: String(pe.position ?? "").trim() || "อาสาสมัครสาธารณสุข (อสส.)",
                 issuingOffice: String(pe.issuingOffice ?? "").trim() || "สำนักอนามัย กรุงเทพมหานคร",
                 issuerPosition: String(pe.issuerPosition ?? "").trim() || "ผู้อำนวยการ",
+                issuerName: String(pe.issuerName ?? "").trim(),
                 issuerSignature: String(pe.issuerSignature ?? ""),
                 issueDate: String(pe.issueDate ?? "").trim(),
                 expiryDate: String(pe.expiryDate ?? "").trim(),
@@ -31882,7 +31953,7 @@ Error generating stack: ` +
                         }),
                         W === "form" &&
                           b.jsx(Z5, {
-                            card: o,
+                            card: { ...o, issuerName: globalIssuerName, issuerSignature: globalIssuerSignature },
                             onChange: d,
                             onSave: K,
                             onReset: Re,
@@ -32103,6 +32174,33 @@ Error generating stack: ` +
                                 children: [
                                   b.jsx("h3", {
                                     className: "text-sm font-bold text-slate-900",
+                                    children: "✍️ ข้อมูลผู้ออกบัตร",
+                                  }),
+                                  b.jsx("p", {
+                                    className: "mt-1 mb-3 text-xs text-slate-500",
+                                    children: "ชื่อจะแสดงอยู่ภายในวงเล็บเส้นประบนบัตรและใบรับรอง",
+                                  }),
+                                  b.jsx(Hl, {
+                                    label: "ชื่อผู้ออกบัตร",
+                                    placeholder: "ชื่อ - นามสกุล",
+                                    value: globalIssuerName,
+                                    onChange: updateGlobalIssuerName,
+                                  }),
+                                  b.jsx("div", {
+                                    className: "mt-4",
+                                    children: b.jsx($5, {
+                                      label: "ลายเซ็นผู้ออกบัตร (ใช้กับทุกบัตร)",
+                                      value: globalIssuerSignature,
+                                      onChange: updateGlobalIssuerSignature,
+                                    }),
+                                  }),
+                                ],
+                              }),
+                              b.jsxs("section", {
+                                className: "rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6",
+                                children: [
+                                  b.jsx("h3", {
+                                    className: "text-sm font-bold text-slate-900",
                                     children: "🖨 การตั้งค่าพิมพ์",
                                   }),
                                   b.jsxs("ol", {
@@ -32228,7 +32326,7 @@ Error generating stack: ` +
                             ],
                           }),
                           b.jsx(W5, {
-                            card: o,
+                            card: { ...o, issuerName: globalIssuerName, issuerSignature: globalIssuerSignature },
                             side: S,
                             onSideChange: E,
                             logoSrc: O || void 0,
@@ -32240,7 +32338,7 @@ Error generating stack: ` +
                 }),
               ],
             }),
-            b.jsx(q5, { cards: q, logoSrc: O || void 0 }),
+            b.jsx(q5, { cards: q, logoSrc: O || void 0, issuerName: globalIssuerName, issuerSignature: globalIssuerSignature }),
             D &&
               b.jsx("div", {
                 className: "fixed bottom-6 left-1/2 z-50 -translate-x-1/2 print:hidden",
@@ -32303,10 +32401,10 @@ Error generating stack: ` +
             box-sizing: border-box !important;
             width: 21cm !important;
             min-height: 29.7cm !important;
-            padding: 1cm 2cm !important;
+            padding: 6mm 2cm !important;
             display: flex !important;
             flex-direction: column !important;
-            gap: 0 !important;
+            gap: 2mm !important;
             page-break-after: always !important;
             break-after: page !important;
           }
@@ -32355,6 +32453,7 @@ Error generating stack: ` +
           position: Ya(e, ["ตำแหน่ง", "position"]) || "อาสาสมัครสาธารณสุข (อสส.)",
           issuingOffice: Ya(e, ["หน่วยงานผู้ออกบัตร", "ผู้ออกบัตร", "issuingOffice", "issuing office"]) || "สำนักอนามัย กรุงเทพมหานคร",
           issuerPosition: Ya(e, ["ตำแหน่งผู้ออกบัตร", "ผู้ออกบัตร", "issuerPosition", "issuer position"]) || "ผู้อำนวยการ",
+          issuerName: Ya(e, ["ชื่อผู้ออกบัตร", "ชื่อผู้ลงนาม", "issuerName", "issuer name"]) || "",
           issuerSignature: Ya(e, ["ลายเซ็นผู้ออกบัตร", "ลายเซ็น", "issuerSignature", "issuer signature"]) || "",
           issueDate: x2(uh(e, ["วันที่ออกบัตร", "วันออกบัตร", "issueDate", "issue date"])),
           expiryDate: x2(uh(e, ["วันหมดอายุ", "บัตรหมดอายุ", "expiryDate", "expiry date"])),
@@ -32518,6 +32617,7 @@ Error generating stack: ` +
           var name = c.fullName || "";
           var date = thaiDate(c.issueDate || "");
           var pos = c.issuerPosition || "ผู้อำนวยการสำนักงานสัตวแพทย์สาธารณสุข";
+          var issuerName = c.issuerName || "";
           return (
             '<div class="cert-page"><div class="cert-outer">' +
             '<div class="cert-border-top"><img class="cert-border-line" src="' +
@@ -32556,7 +32656,9 @@ Error generating stack: ` +
             "</div>" +
             '<div class="cert-sig-wrap"><div class="cert-sig-block">' +
             '<div class="cert-sig-dots">............................................................</div>' +
-            '<div class="cert-sig-name">(.......................................................)</div>' +
+            '<div class="cert-sig-name"><span class="cert-sig-paren">(</span><span class="cert-sig-name-line">' +
+            issuerName +
+            '</span><span class="cert-sig-paren">)</span></div>' +
             '<div class="cert-sig-pos">' +
             pos +
             "</div>" +
@@ -32590,7 +32692,9 @@ Error generating stack: ` +
           ".cert-sig-wrap{width:100%;display:flex;justify-content:flex-end;padding-right:15.3mm;margin-top:1mm}" +
           ".cert-sig-block{text-align:center;min-width:75mm}" +
           ".cert-sig-dots{font-size:15.5pt;color:#1a1a1a;letter-spacing:2px}" +
-          ".cert-sig-name{font-size:15.5pt;color:#1a1a1a;margin-top:1mm}" +
+          ".cert-sig-name{display:flex;align-items:flex-end;justify-content:center;font-size:15.5pt;color:#1a1a1a;margin-top:1mm}" +
+          ".cert-sig-name-line{display:inline-block;min-width:65mm;border-bottom:1px dotted #1a1a1a;padding:0 2mm .5mm;line-height:1;text-align:center}" +
+          ".cert-sig-paren{flex:none;line-height:1}" +
           ".cert-sig-pos{font-size:18.4pt;font-weight:bold;color:#1a1a1a;margin-top:1.2mm}" +
           ".cert-note{font-size:9.9pt;color:#1a1a1a;text-align:left;width:100%;margin-top:auto;margin-bottom:7mm;padding:0 2mm 0 20mm;position:relative;z-index:1}";
 
@@ -32652,6 +32756,27 @@ Error generating stack: ` +
           ctx.fillText(text || "", x, y);
         }
 
+        function drawIssuerNameLine(ctx, text, x, y, width) {
+          ctx.save();
+          ctx.fillStyle = "#1a1a1a";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          fitCanvasFont(ctx, text || "", 400, 20, width - 30, 15);
+          ctx.fillText(text || "", x, y - 1);
+          ctx.strokeStyle = "#1a1a1a";
+          ctx.lineWidth = 1.5;
+          ctx.setLineDash([1.5, 3]);
+          ctx.beginPath();
+          ctx.moveTo(x - width / 2 + 8, y + 10);
+          ctx.lineTo(x + width / 2 - 8, y + 10);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          setCanvasFont(ctx, 400, 20);
+          ctx.fillText("(", x - width / 2, y);
+          ctx.fillText(")", x + width / 2, y);
+          ctx.restore();
+        }
+
         function drawGoldCorner(ctx, x, y, sx, sy) {
           ctx.save();
           ctx.translate(x, y);
@@ -32675,6 +32800,7 @@ Error generating stack: ` +
           var name = card.fullName || "";
           var date = thaiDate(card.issueDate || "");
           var pos = card.issuerPosition || "ผู้อำนวยการสำนักงานสัตวแพทย์สาธารณสุข";
+          var issuerName = card.issuerName || "";
 
           ctx.fillStyle = "#fff";
           ctx.fillRect(0, 0, width, height);
@@ -32716,7 +32842,7 @@ Error generating stack: ` +
           drawRightText(ctx, "มอบไว้ ณ วันที่ " + date, width - 190, 574, 20, 400, 620, 16);
 
           drawTextAt(ctx,"................................................", signX - 20, 626, 20, 400);
-          drawTextAt(ctx,"(................................................)", signX - 20, 656, 20, 400);
+          drawIssuerNameLine(ctx, issuerName, signX - 20, 656, 330);
           drawTextAt(
   ctx,
   pos,

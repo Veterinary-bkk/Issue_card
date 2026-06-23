@@ -1927,6 +1927,46 @@
       .card-actual-size:not(:has(.card-front-title)) .flex.flex-1.items-center.justify-center .w-full.text-center > .mb-\[0\.5mm\]:not(.flex) {
         margin-bottom: 0.2mm !important;
       }
+      .card-actual-size:not(:has(.card-front-title)) .issuer-name-guide {
+        width: 84% !important;
+        min-height: 3.5mm !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding: 0 !important;
+        border-bottom: 0 !important;
+        display: flex !important;
+        align-items: flex-end !important;
+        justify-content: center !important;
+        font-size: 11.5px !important;
+        line-height: 1 !important;
+        white-space: nowrap !important;
+      }
+      .card-actual-size:not(:has(.card-front-title)) .issuer-signature-line {
+        width: 84% !important;
+        min-height: 3mm !important;
+        margin: 0 auto 0.2mm !important;
+        border-bottom: 1px dotted #111 !important;
+      }
+      .card-actual-size:not(:has(.card-front-title)) .issuer-signature-line.has-signature {
+        min-height: 0 !important;
+        margin-top: -0.4mm !important;
+      }
+      .card-actual-size:not(:has(.card-front-title)) .issuer-name-paren {
+        flex: 0 0 auto !important;
+        line-height: 1 !important;
+      }
+      .card-actual-size:not(:has(.card-front-title)) .issuer-name-dotted-line {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        padding: 0 1mm 0.35mm !important;
+        border-bottom: 1px dotted #111 !important;
+        text-align: center !important;
+        line-height: 1 !important;
+      }
+      .card-actual-size:not(:has(.card-front-title)) .issuer-name-guide::before {
+        content: none !important;
+        display: none !important;
+      }
       .card-actual-size:not(:has(.card-front-title)) .flex.flex-1.items-center.justify-center .w-full.text-center > .mb-\[0\.5mm\]:not(.flex)::before {
         content: "";
         display: block;
