@@ -1537,7 +1537,7 @@
       @font-face {
         font-family: "THSarabunIT9";
         src: url("./THSarabunIT9.ttf") format("truetype");
-        font-weight: 300 800;
+        font-weight: 400;
         font-style: normal;
         font-display: swap;
       }
@@ -2073,6 +2073,13 @@
   white-space: nowrap !important;
 }
 
+/* Keep every card label and value at the regular THSarabunIT9 weight. */
+#root .card-actual-size,
+#root .card-actual-size * {
+  font-weight: 400 !important;
+  font-synthesis: none !important;
+}
+
 /* Stack the front and back previews on narrow phone screens. */
 @media (max-width: 639px) {
   .single-print-area {
@@ -2083,4 +2090,279 @@
   .single-print-area > div {
     min-width: 0;
   }
+}
+
+/* Realtime A4 certificate preview in the data-entry screen. */
+.certificate-preview-wrap {
+  width: 100%;
+}
+
+.certificate-preview,
+.certificate-preview * {
+  box-sizing: border-box;
+}
+
+.certificate-preview {
+  container-type: inline-size;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 297 / 210;
+  overflow: hidden;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #1a1a1a;
+  font-family: "THSarabunIT9", "TH Sarabun IT๙", "TH Sarabun New", "Sarabun", "Leelawadee UI", Tahoma, sans-serif;
+  font-feature-settings: "liga", "kern";
+  box-shadow: 0 8px 24px rgb(15 23 42 / 10%);
+}
+
+.certificate-preview-border-top,
+.certificate-preview-border-bottom {
+  position: absolute;
+  z-index: 2;
+  right: 14.14%;
+  left: 14.14%;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.certificate-preview-border-top {
+  top: 2.86%;
+}
+
+.certificate-preview-border-bottom {
+  bottom: 2.86%;
+}
+
+.certificate-preview-border-line {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.certificate-preview-corner-img {
+  position: absolute;
+  z-index: 3;
+  width: 13.47cqw;
+  height: 13.47cqw;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.certificate-preview-corner-img.tl {
+  top: 0;
+  left: 0;
+}
+
+.certificate-preview-corner-img.tr {
+  top: 0;
+  right: 0;
+  transform: scaleX(-1);
+}
+
+.certificate-preview-corner-img.bl {
+  bottom: 0;
+  left: 0;
+  transform: scaleY(-1);
+}
+
+.certificate-preview-corner-img.br {
+  right: 0;
+  bottom: 0;
+  transform: scale(-1, -1);
+}
+
+.certificate-preview-side {
+  position: absolute;
+  z-index: 2;
+  top: 19.05%;
+  bottom: 19.05%;
+  display: flex;
+  width: 1.35%;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.certificate-preview-side.left {
+  left: 2.02%;
+}
+
+.certificate-preview-side.right {
+  right: 2.02%;
+}
+
+.certificate-preview-side-bar {
+  width: 1px;
+  flex: 1;
+  background: #b8962e;
+}
+
+.certificate-preview-side-swirl {
+  width: 1.35cqw;
+  height: 2.7cqw;
+  margin: 0.17cqw 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 80%22><path d=%22M20 0 Q20 14 26 18 Q34 22 34 30 Q34 38 26 38 Q18 38 18 30 Q18 24 24 22%22 fill=%22none%22 stroke=%22%23b8962e%22 stroke-width=%222%22/><circle cx=%2220%22 cy=%2240%22 r=%222.2%22 fill=%22%23b8962e%22/><path d=%22M20 80 Q20 66 14 62 Q6 58 6 50 Q6 42 14 42 Q22 42 22 50 Q22 56 16 58%22 fill=%22none%22 stroke=%22%23b8962e%22 stroke-width=%222%22/></svg>");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.certificate-preview-logo {
+  position: absolute;
+  z-index: 4;
+  top: 10%;
+  left: 50%;
+  width: 9.8cqw;
+  height: 9.8cqw;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 0.6cqw #fff;
+  object-fit: contain;
+}
+
+.certificate-preview-org,
+.certificate-preview-certify,
+.certificate-preview-name,
+.certificate-preview-trained,
+.certificate-preview-course,
+.certificate-preview-wish,
+.certificate-preview-date,
+.certificate-preview-sign-dots,
+.certificate-preview-issuer,
+.certificate-preview-position,
+.certificate-preview-note {
+  position: absolute;
+  z-index: 1;
+}
+
+.certificate-preview-org {
+  top: 23%;
+  left: 3%;
+  width: 94%;
+  overflow: hidden;
+  font-size: clamp(11px, 3cqw, 25px);
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.certificate-preview-certify {
+  top: 30.2%;
+  left: 0;
+  width: 100%;
+  font-size: clamp(9px, 2.75cqw, 24px);
+  line-height: 1;
+  text-align: center;
+}
+
+.certificate-preview-name {
+  top: 36.7%;
+  left: 12%;
+  width: 76%;
+  overflow: hidden;
+  font-size: clamp(10px, 3cqw, 26px);
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.certificate-preview-trained {
+  top: 43.7%;
+  left: 0;
+  width: 100%;
+  font-size: clamp(9px, 2.55cqw, 22px);
+  line-height: 1;
+  text-align: center;
+}
+
+.certificate-preview-course {
+  top: 49.5%;
+  left: 7%;
+  width: 86%;
+  font-size: clamp(9px, 2.55cqw, 22px);
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.certificate-preview-wish {
+  top: 61.5%;
+  left: 7%;
+  width: 86%;
+  font-size: clamp(8px, 2.05cqw, 18px);
+  line-height: 1.15;
+  text-align: center;
+}
+
+.certificate-preview-date {
+  top: 71.5%;
+  right: 13%;
+  width: 68%;
+  font-size: clamp(9px, 2.45cqw, 21px);
+  line-height: 1;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.certificate-preview-sign-dots {
+  top: 77.2%;
+  right: 7%;
+  width: 34%;
+  overflow: hidden;
+  font-size: clamp(8px, 2.1cqw, 18px);
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.certificate-preview-issuer {
+  top: 82%;
+  right: 7%;
+  width: 34%;
+  font-size: clamp(8px, 2.05cqw, 18px);
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.certificate-preview-issuer-line {
+  display: inline-block;
+  width: 25cqw;
+  overflow: hidden;
+  border-bottom: 1px dotted #1a1a1a;
+  text-align: center;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+  white-space: nowrap;
+}
+
+.certificate-preview-position {
+  top: 86.5%;
+  right: 3%;
+  width: 42%;
+  max-height: 2.3em;
+  overflow: hidden;
+  font-size: clamp(7px, 1.55cqw, 14px);
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  white-space: normal;
+}
+
+.certificate-preview-note {
+  right: 8%;
+  bottom: 11.5%;
+  left: 8%;
+  overflow: hidden;
+  font-size: clamp(6px, 1.15cqw, 10px);
+  line-height: 1;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
