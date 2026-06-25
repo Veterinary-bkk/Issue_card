@@ -1,4 +1,4 @@
-      (function () {
+﻿      (function () {
         const r = document.createElement("link").relList;
         if (r && r.supports && r.supports("modulepreload")) return;
         for (const l of document.querySelectorAll('link[rel="modulepreload"]')) i(l);
@@ -14551,13 +14551,7 @@ Error generating stack: ` +
         if (i !== 2) throw new Error("Unrecognized streamVersion: " + i);
         var l = e.read_shift(2);
         e.l += 2;
-        var f,
-          u,
-          o,
-          d,
-          x = "",
-          v,
-          p;
+        var f, u, o, d, x = "", v, p;
         (l & 16 && (f = Gf(e, t - e.l)), l & 128 && (u = Gf(e, t - e.l)), (l & 257) === 257 && (o = Gf(e, t - e.l)), (l & 257) === 1 && (d = eE(e, t - e.l)), l & 8 && (x = Gf(e, t - e.l)), l & 32 && (v = e.read_shift(16)), l & 64 && (p = Mh(e)), (e.l = t));
         var _ = u || o || d || "";
         (_ && x && (_ += "#" + x), _ || (_ = "#" + x), l & 2 && _.charAt(0) == "/" && _.charAt(1) != "/" && (_ = "file://" + _));
@@ -30396,7 +30390,7 @@ Error generating stack: ` +
         const [, t, i, l] = r,
           f = Number(t) + 543,
           a = ["ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ค", "มิ.ย", "ก.ค", "ส.ค", "ก.ย", "ต.ค", "พ.ย", "ธ.ค"][Number(i) - 1] || toTN(i);
-        return toTN(l) + " / " + a + " / " + toTN(String(f).slice(-2));
+        return toTN(l) + " " + a + " " + toTN(String(f).slice(-2));
       }
       function q5({ cards: e, logoSrc: r, issuerSignature: n, issuerName: a }) {
         const t = K5(e, 5);
@@ -30603,18 +30597,6 @@ Error generating stack: ` +
                   label: "ตำแหน่งผู้ออกบัตร",
                   value: e.issuerPosition,
                   onChange: (v) => d("issuerPosition", v),
-                }),
-                b.jsx(Hl, {
-                  label: "วันที่ออกบัตร",
-                  type: "date",
-                  value: e.issueDate,
-                  onChange: (v) => d("issueDate", v),
-                }),
-                b.jsx(Hl, {
-                  label: "บัตรหมดอายุ",
-                  type: "date",
-                  value: e.expiryDate,
-                  onChange: (v) => d("expiryDate", v),
                 }),
               ],
             }),
