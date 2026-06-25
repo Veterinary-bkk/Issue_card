@@ -1539,11 +1539,12 @@
         src: url("./THSarabunIT9.ttf") format("truetype");
         font-weight: 400;
         font-style: normal;
-        font-display: swap;
+        font-display: block;
       }
       :root {
         --font-thai-official: "THSarabunIT9", "Sarabun", "TH Sarabun New", "Leelawadee UI", "Tahoma", system-ui, sans-serif;
         --font-card-official: "THSarabunIT9", "TH Sarabun IT๙", "TH Sarabun New", "Sarabun", "Leelawadee UI", "Tahoma", system-ui, sans-serif;
+        --font-certificate: "THSarabunIT9", "TH Sarabun IT๙", "TH Sarabun New", "Sarabun", "Leelawadee UI", "Tahoma", sans-serif;
         --card-title-font-size: 12.8px;
       }
       html,
@@ -2111,7 +2112,7 @@
   border: 1px solid #cbd5e1;
   background: #fff;
   color: #1a1a1a;
-  font-family: "THSarabunIT9", "TH Sarabun IT๙", "TH Sarabun New", "Sarabun", "Leelawadee UI", Tahoma, sans-serif;
+  font-family: var(--font-certificate);
   font-feature-settings: "liga", "kern";
   box-shadow: 0 8px 24px rgb(15 23 42 / 10%);
 }
@@ -2209,20 +2210,18 @@
   background-size: contain;
 }
 
-.certificate-preview-logo {
+.certificate-preview-content {
   position: absolute;
-  z-index: 4;
-  top: 10%;
-  left: 50%;
-  width: 9.8cqw;
-  height: 9.8cqw;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 0 0 0.6cqw #fff;
-  object-fit: contain;
+  z-index: 1;
+  inset: 0;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.02cqw 5.39cqw 2.36cqw;
 }
 
+.certificate-preview-logo,
 .certificate-preview-org,
 .certificate-preview-certify,
 .certificate-preview-name,
@@ -2234,135 +2233,141 @@
 .certificate-preview-issuer,
 .certificate-preview-position,
 .certificate-preview-note {
-  position: absolute;
+  position: relative;
   z-index: 1;
+  flex: none;
+}
+
+.certificate-preview-logo {
+  display: block;
+  width: 9.77cqw;
+  height: 9.77cqw;
+  margin: 0 auto 0.2cqw;
+  object-fit: contain;
 }
 
 .certificate-preview-org {
-  top: 23%;
-  left: 3%;
-  width: 94%;
+  max-width: 100%;
   overflow: hidden;
-  font-size: clamp(11px, 3cqw, 25px);
+  margin: 0;
+  font-size: 4.5cqw;
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.1;
   text-align: center;
+  text-overflow: clip;
   white-space: nowrap;
 }
 
 .certificate-preview-certify {
-  top: 30.2%;
-  left: 0;
-  width: 100%;
-  font-size: clamp(9px, 2.75cqw, 24px);
-  line-height: 1;
+  margin-top: 0.2cqw;
+  font-size: 3.45cqw;
+  line-height: normal;
   text-align: center;
 }
 
 .certificate-preview-name {
-  top: 36.7%;
-  left: 12%;
-  width: 76%;
+  max-width: 100%;
   overflow: hidden;
-  font-size: clamp(10px, 3cqw, 26px);
+  margin-top: 0.51cqw;
+  font-size: 3.8cqw;
   font-weight: 700;
-  line-height: 1;
+  line-height: normal;
   text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .certificate-preview-trained {
-  top: 43.7%;
-  left: 0;
-  width: 100%;
-  font-size: clamp(9px, 2.55cqw, 22px);
-  line-height: 1;
+  margin-top: 0.67cqw;
+  font-size: 3.33cqw;
+  line-height: normal;
   text-align: center;
 }
 
 .certificate-preview-course {
-  top: 49.5%;
-  left: 7%;
-  width: 86%;
-  font-size: clamp(9px, 2.55cqw, 22px);
+  margin-top: 0.27cqw;
+  font-size: 3.33cqw;
   font-weight: 700;
   line-height: 1.15;
   text-align: center;
 }
 
 .certificate-preview-wish {
-  top: 61.5%;
-  left: 7%;
-  width: 86%;
-  font-size: clamp(8px, 2.05cqw, 18px);
+  margin-top: 0.1cqw;
+  font-size: 2.97cqw;
   line-height: 1.15;
   text-align: center;
 }
 
 .certificate-preview-date {
-  top: 71.5%;
-  right: 13%;
-  width: 68%;
-  font-size: clamp(9px, 2.45cqw, 21px);
-  line-height: 1;
+  width: 100%;
+  margin-top: 0.34cqw;
+  padding-right: 12.29cqw;
+  font-size: 3.45cqw;
+  line-height: normal;
   text-align: right;
   white-space: nowrap;
 }
 
-.certificate-preview-sign-dots {
-  top: 77.2%;
-  right: 7%;
-  width: 34%;
-  overflow: hidden;
-  font-size: clamp(8px, 2.1cqw, 18px);
-  line-height: 1;
+.certificate-preview-sign-dots,
+.certificate-preview-issuer,
+.certificate-preview-position {
+  align-self: flex-end;
+  min-width: 25.25cqw;
+  margin-right: 5.15cqw;
   text-align: center;
+}
+
+.certificate-preview-sign-dots {
+  overflow: hidden;
+  margin-top: 0.1cqw;
+  font-size: 2.14cqw;
+  line-height: normal;
+  letter-spacing: 0.18cqw;
   white-space: nowrap;
 }
 
 .certificate-preview-issuer {
-  top: 82%;
-  right: 7%;
-  width: 34%;
-  font-size: clamp(8px, 2.05cqw, 18px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-top: 0.13cqw;
+  font-size: 2.14cqw;
   line-height: 1;
-  text-align: center;
   white-space: nowrap;
 }
 
 .certificate-preview-issuer-line {
   display: inline-block;
-  width: 25cqw;
+  min-width: 21.89cqw;
   overflow: hidden;
   border-bottom: 1px dotted #1a1a1a;
+  padding: 0 0.67cqw 0.07cqw;
+  line-height: 1;
   text-align: center;
   text-overflow: ellipsis;
-  vertical-align: bottom;
   white-space: nowrap;
 }
 
 .certificate-preview-position {
-  top: 86.5%;
-  right: 3%;
-  width: 42%;
-  max-height: 2.3em;
+  max-width: 38cqw;
   overflow: hidden;
-  font-size: clamp(7px, 1.55cqw, 14px);
+  margin-top: 0.13cqw;
+  font-size: 2.55cqw;
   font-weight: 700;
-  line-height: 1.15;
-  text-align: center;
-  white-space: normal;
+  line-height: normal;
+  white-space: nowrap;
 }
 
 .certificate-preview-note {
-  right: 8%;
-  bottom: 11.5%;
-  left: 8%;
+  width: 100%;
   overflow: hidden;
-  font-size: clamp(6px, 1.15cqw, 10px);
-  line-height: 1;
+  margin-top: auto;
+  margin-bottom: 0.67cqw;
+  padding: 0 0.67cqw 0 6.73cqw;
+  font-size: 1.37cqw;
+  line-height: normal;
   text-align: left;
-  text-overflow: ellipsis;
+  text-overflow: clip;
   white-space: nowrap;
 }

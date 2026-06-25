@@ -30073,7 +30073,10 @@ Error generating stack: ` +
                 f.corner && b.jsx("img", { className: "certificate-preview-corner-img tr", src: f.corner, alt: "" }),
                 f.corner && b.jsx("img", { className: "certificate-preview-corner-img bl", src: f.corner, alt: "" }),
                 f.corner && b.jsx("img", { className: "certificate-preview-corner-img br", src: f.corner, alt: "" }),
-                b.jsx(bg, { className: "certificate-preview-logo", src: r }),
+                b.jsxs("div", {
+                  className: "certificate-preview-content",
+                  children: [
+                    b.jsx(bg, { className: "certificate-preview-logo", src: r }),
                 b.jsx("div", {
                   className: "certificate-preview-org",
                   children: "สำนักงานสัตวแพทย์สาธารณสุข สำนักอนามัย กรุงเทพมหานคร",
@@ -30132,6 +30135,8 @@ Error generating stack: ` +
                 b.jsx("div", {
                   className: "certificate-preview-note",
                   children: "*ใบรับรองนี้ให้ไว้เพื่อเป็นหลักฐานว่าได้ผ่านการฝึกอบรมเท่านั้น ไม่มีผลผูกพันทางกฎหมาย",
+                }),
+                  ],
                 }),
               ],
             }),
@@ -32818,8 +32823,9 @@ Error generating stack: ` +
 
         var FONT_URL = new URL("THSarabunIT9.ttf", window.location.href).href;
         var CSS =
-          ".cert-page{width:297mm;min-height:210mm;display:flex;align-items:center;justify-content:center;background:white;page-break-after:always;box-sizing:border-box}" +
-          ".cert-outer{width:297mm;min-height:210mm;position:relative;background:white;display:flex;flex-direction:column;align-items:center;font-family:'THSarabunIT9','TH Sarabun IT๙','TH Sarabun New','Sarabun','Angsana New',serif;font-feature-settings:'liga','kern';padding:8mm 16mm 17mm;box-sizing:border-box;overflow:hidden}" +
+          ".cert-page{width:297mm;height:210mm;min-height:0;max-height:210mm;display:flex;flex:none;align-items:center;justify-content:center;background:white;overflow:hidden;page-break-inside:avoid;break-inside:avoid;page-break-after:always;break-after:page;box-sizing:border-box}" +
+          ".cert-page:last-child{page-break-after:auto;break-after:auto}" +
+          ".cert-outer{width:297mm;height:210mm;min-height:0;max-height:210mm;position:relative;background:white;display:flex;flex:none;flex-direction:column;align-items:center;font-family:'THSarabunIT9','TH Sarabun IT๙','TH Sarabun New','Sarabun','Leelawadee UI','Tahoma',sans-serif;font-feature-settings:'liga','kern';padding:23mm 16mm 7mm;box-sizing:border-box;overflow:hidden}" +
           ".cert-border-top{position:absolute;top:6mm;left:42mm;right:42mm;display:flex;justify-content:center}" +
           ".cert-border-bottom{position:absolute;bottom:6mm;left:42mm;right:42mm;display:flex;justify-content:center}" +
           ".cert-border-line{width:100%;height:auto;display:block}" +
@@ -32830,38 +32836,38 @@ Error generating stack: ` +
           ".cert-side-r{position:absolute;right:6mm;top:40mm;bottom:40mm;width:4mm;display:flex;flex-direction:column;align-items:center}" +
           ".cert-side-bar{width:1pt;background:#b8962e;flex:1}" +
           ".cert-side-swirl{width:4mm;height:8mm;margin:0.5mm 0;background-repeat:no-repeat;background-position:center;background-size:contain;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 80%22><path d=%22M20 0 Q20 14 26 18 Q34 22 34 30 Q34 38 26 38 Q18 38 18 30 Q18 24 24 22%22 fill=%22none%22 stroke=%22%23b8962e%22 stroke-width=%222%22/><circle cx=%2220%22 cy=%2240%22 r=%222.2%22 fill=%22%23b8962e%22/><path d=%22M20 80 Q20 66 14 62 Q6 58 6 50 Q6 42 14 42 Q22 42 22 50 Q22 56 16 58%22 fill=%22none%22 stroke=%22%23b8962e%22 stroke-width=%222%22/></svg>')}" +
-          ".cert-logo{width:34mm;height:34mm;object-fit:contain;margin:0 auto 1.3mm;display:block;position:relative;z-index:1}" +
+          ".cert-logo{width:30mm;height:30mm;object-fit:contain;margin:0 auto .6mm;display:block;position:relative;z-index:1}" +
           // ===== ขนาดตัวอักษรใบรับรองสำหรับสั่งพิมพ์ (แก้ค่าหลัง font-size หน่วย pt) =====
           // ชื่อหน่วยงานด้านบน: "สำนักงานสัตวแพทย์สาธารณสุข สำนักอนามัย กรุงเทพมหานคร"
-          ".cert-org{font-size:36pt;font-weight:bold;color:#1a1a1a;text-align:center;white-space:nowrap;margin:0;line-height:1.1;position:relative;z-index:1}" +
+          ".cert-org{font-size:38pt;font-weight:bold;color:#1a1a1a;text-align:center;white-space:nowrap;margin:0;line-height:1.1;position:relative;z-index:1}" +
           // ข้อความ "ขอรับรองว่า"
-          ".cert-certify{font-size:23pt;color:#1a1a1a;text-align:center;margin:1.3mm 0 0}" +
+          ".cert-certify{font-size:25pt;color:#1a1a1a;text-align:center;margin:.6mm 0 0}" +
           // ชื่อผู้รับใบรับรอง
-          ".cert-name{font-size:25pt;font-weight:bold;color:#1a1a1a;text-align:center;margin:3mm 0 0}" +
+          ".cert-name{font-size:30pt;font-weight:bold;color:#1a1a1a;text-align:center;margin:1.5mm 0 0}" +
           // ข้อความ "ได้ผ่านการฝึกอบรม"
-          ".cert-trained{font-size:21.5pt;color:#1a1a1a;text-align:center;margin:4.5mm 0 0}" +
+          ".cert-trained{font-size:25pt;color:#1a1a1a;text-align:center;margin:2mm 0 0}" +
           // ชื่อโครงการฝึกอบรมทั้ง 2 บรรทัด
-          ".cert-course{font-size:21.5pt;font-weight:bold;color:#1a1a1a;text-align:center;margin:1.7mm 0 0;line-height:1.2}" +
+          ".cert-course{font-size:25pt;font-weight:bold;color:#1a1a1a;text-align:center;margin:.8mm 0 0;line-height:1.15}" +
           // ข้อความคำอวยพรทั้ง 2 บรรทัด
-          ".cert-wish{font-size:18pt;color:#1a1a1a;text-align:center;margin:.8mm 0 0;line-height:1.2}" +
+          ".cert-wish{font-size:23pt;color:#1a1a1a;text-align:center;margin:.3mm 0 0;line-height:1.15}" +
           // วันที่มอบใบรับรอง
-          ".cert-date{font-size:21.5pt;color:#1a1a1a;text-align:right;margin:2.5mm 0 0;width:100%;padding-right:36.5mm}" +
-          ".cert-sig-wrap{width:100%;display:flex;justify-content:flex-end;padding-right:15.3mm;margin-top:1mm}" +
+          ".cert-date{font-size:25pt;color:#1a1a1a;text-align:right;margin:1mm 0 0;width:100%;padding-right:36.5mm}" +
+          ".cert-sig-wrap{width:100%;display:flex;justify-content:flex-end;padding-right:15.3mm;margin-top:.3mm}" +
           ".cert-sig-block{text-align:center;min-width:75mm}" +
           // เส้นจุดเหนือช่องลงชื่อ
-          ".cert-sig-dots{font-size:18pt;color:#1a1a1a;letter-spacing:2px}" +
+          ".cert-sig-dots{font-size:25pt;color:#1a1a1a;letter-spacing:2px}" +
           // ชื่อผู้ออกใบรับรองในวงเล็บ
-          ".cert-sig-name{display:flex;align-items:flex-end;justify-content:center;font-size:18pt;color:#1a1a1a;margin-top:.7mm}" +
-          ".cert-sig-name-line{display:inline-block;min-width:65mm;border-bottom:1px dotted #1a1a1a;padding:0 2mm .5mm;line-height:1;text-align:center}" +
+          ".cert-sig-name{display:flex;align-items:flex-end;justify-content:center;font-size:25pt;color:#1a1a1a;margin-top:.4mm}" +
+          ".cert-sig-name-line{display:inline-block;min-width:65mm;border-bottom:1px dotted #1a1a1a;padding:0 2mm .2mm;line-height:1;text-align:center}" +
           ".cert-sig-paren{flex:none;line-height:1}" +
           // ตำแหน่งผู้ออกใบรับรอง
-          ".cert-sig-pos{font-size:21.5pt;font-weight:bold;color:#1a1a1a;margin-top:.8mm}" +
+          ".cert-sig-pos{font-size:25pt;color:#1a1a1a;margin-top:.4mm}" +
           // หมายเหตุด้านล่างใบรับรอง
-          ".cert-note{font-size:11.5pt;color:#1a1a1a;text-align:left;width:100%;margin-top:auto;margin-bottom:7mm;padding:0 2mm 0 20mm;position:relative;z-index:1}";
+          ".cert-note{font-size:11.5pt;color:#1a1a1a;text-align:left;width:100%;margin-top:auto;margin-bottom:2mm;padding:0 2mm 0 20mm;position:relative;z-index:1}";
 
         function certDocumentHtml(cards) {
           return '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>ใบรับรอง</title>' +
-            "<style>@font-face{font-family:'THSarabunIT9';src:url('" + FONT_URL + "') format('truetype');font-weight:400;font-style:normal;font-display:block}@page{size:A4 landscape;margin:0}body{margin:0;padding:0;background:white}" +
+            "<style>@font-face{font-family:'THSarabunIT9';src:url('" + FONT_URL + "') format('truetype');font-weight:400;font-style:normal;font-display:block}@page{size:A4 landscape;margin:0}html,body{width:297mm;margin:0;padding:0;background:white}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}" +
             CSS +
             "</style></head><body>" +
             cards.map(buildCert).join("") +
@@ -32896,7 +32902,7 @@ Error generating stack: ` +
         // ===== ฟังก์ชันกำหนดตัวอักษรสำหรับใบรับรอง PNG =====
         // size คือขนาดตัวอักษรหน่วย px และ weight คือความหนา (400 = ปกติ, 700 = ตัวหนา)
         function setCanvasFont(ctx, weight, size) {
-          ctx.font = `${weight} ${size}px "THSarabunIT9", "TH Sarabun IT๙", "TH Sarabun New", "Sarabun", "Leelawadee UI", Tahoma, sans-serif`;
+          ctx.font = `${weight} ${size}px "THSarabunIT9", "TH Sarabun IT๙", "TH Sarabun New", "Sarabun", "Leelawadee UI", "Tahoma", sans-serif`;
         }
 
         // ลดขนาดอัตโนมัติเมื่อข้อความยาวเกิน maxWidth โดยจะไม่เล็กกว่า minSize
@@ -33003,22 +33009,22 @@ Error generating stack: ` +
 
           if (logoImg) ctx.drawImage(logoImg, (width - 108) / 2, 44, 108, 108);
           // ===== ขนาดตัวอักษรใบรับรอง PNG (ตัวเลขลำดับที่ 4 ของ drawCenterText คือขนาด px) =====
-          // ชื่อหน่วยงานด้านบน — ขนาด 34px
-          drawCenterText(ctx, "สำนักงานสัตวแพทย์สาธารณสุข สำนักอนามัย กรุงเทพมหานคร", 183, 34, 700, 980, 24);
-          // ข้อความ "ขอรับรองว่า" — ขนาด 24px
-          drawCenterText(ctx, "ขอรับรองว่า", 232, 24, 400);
-          // ชื่อผู้รับใบรับรอง — ขนาด 29px
-          drawCenterText(ctx, name, 286, 29, 700, 760, 21);
-          // ข้อความ "ได้ผ่านการฝึกอบรม" — ขนาด 24px
-          drawCenterText(ctx, "ได้ผ่านการฝึกอบรม", 340, 24, 400);
-          // ชื่อโครงการบรรทัดที่ 1 — ขนาด 25px
-          drawCenterText(ctx, "โครงการฝึกอบรมเพื่อสร้างและพัฒนาศักยภาพอาสาสมัครสาธารณสุข", 392, 25, 700, 920, 18);
-          // ชื่อโครงการบรรทัดที่ 2 — ขนาด 25px
-          drawCenterText(ctx, "ด้านโรคพิษสุนัขบ้ากรุงเทพมหานคร", 425, 25, 700, 850, 18);
-          // คำอวยพรบรรทัดที่ 1 — ขนาด 21px
-          drawCenterText(ctx, "ขอให้เจริญด้วยอายุ วรรณะ สุขะ พละ และใช้ความรู้และทักษะจากการฝึกอบรม", 480, 21, 400, 900, 16);
-          // คำอวยพรบรรทัดที่ 2 — ขนาด 21px
-          drawCenterText(ctx, "เพื่อปฏิบัติตนให้เป็นประโยชน์ต่อกรุงเทพมหานครโดยสุจริตสืบไป", 508, 21, 400, 900, 16);
+          // ชื่อหน่วยงานด้านบน — ขนาด 44px
+          drawCenterText(ctx, "สำนักงานสัตวแพทย์สาธารณสุข สำนักอนามัย กรุงเทพมหานคร", 183, 40, 700, 980, 30);
+          // ข้อความ "ขอรับรองว่า" — ขนาด 31px
+          drawCenterText(ctx, "ขอรับรองว่า", 232, 31, 400);
+          // ชื่อผู้รับใบรับรอง — ขนาด 38px
+          drawCenterText(ctx, name, 286, 38, 700, 760, 26);
+          // ข้อความ "ได้ผ่านการฝึกอบรม" — ขนาด 31px
+          drawCenterText(ctx, "ได้ผ่านการฝึกอบรม", 340, 31, 400);
+          // ชื่อโครงการบรรทัดที่ 1 — ขนาด 32px
+          drawCenterText(ctx, "โครงการฝึกอบรมเพื่อสร้างและพัฒนาศักยภาพอาสาสมัครสาธารณสุข", 392, 32, 700, 920, 23);
+          // ชื่อโครงการบรรทัดที่ 2 — ขนาด 32px
+          drawCenterText(ctx, "ด้านโรคพิษสุนัขบ้ากรุงเทพมหานคร", 425, 32, 700, 850, 23);
+          // คำอวยพรบรรทัดที่ 1 — ขนาด 28px
+          drawCenterText(ctx, "ขอให้เจริญด้วยอายุ วรรณะ สุขะ พละ และใช้ความรู้และทักษะจากการฝึกอบรม", 480, 28, 400, 900, 20);
+          // คำอวยพรบรรทัดที่ 2 — ขนาด 28px
+          drawCenterText(ctx, "เพื่อปฏิบัติตนให้เป็นประโยชน์ต่อกรุงเทพมหานครโดยสุจริตสืบไป", 508, 28, 400, 900, 20);
           const signX = width - 300;
           // วันที่มอบใบรับรอง — ขนาด 24px
           drawRightText(ctx, "มอบไว้ ณ วันที่ " + date, width - 190, 574, 24, 400, 620, 18);
@@ -33028,24 +33034,15 @@ Error generating stack: ` +
           // ชื่อผู้ออกใบรับรอง — ขนาดกำหนดในฟังก์ชัน drawIssuerNameLine ด้านบน
           drawIssuerNameLine(ctx, issuerName, signX - 20, 656, 330);
           // ตำแหน่งผู้ออกใบรับรอง — ขนาด 24px
-          drawTextAt(
-  ctx,
-  pos,
-  signX - 20,
-  694,
-  24,
-  700,
-  740,
-  18
-);
+          drawTextAt(ctx, pos, signX - 20, 694, 24, 700, 740, 18);
 
           function drawTextAt(ctx, text, x, y, size, weight, maxWidth, minSize) {
-  ctx.fillStyle = "#1a1a1a";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  fitCanvasFont(ctx, text, weight || 400, size, maxWidth, minSize);
-  ctx.fillText(text || "", x, y);
-}
+            ctx.fillStyle = "#1a1a1a";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            fitCanvasFont(ctx, text, weight || 400, size, maxWidth, minSize);
+            ctx.fillText(text || "", x, y);
+          }
 
           ctx.textAlign = "left";
           ctx.textBaseline = "middle";
@@ -33054,7 +33051,7 @@ Error generating stack: ` +
           ctx.fillStyle = "#1a1a1a";
           ctx.fillText("*ใบรับรองนี้ให้ไว้เพื่อเป็นหลักฐานว่าได้ผ่านการฝึกอบรมเท่านั้น ไม่มีผลผูกพันทางกฎหมาย", 88, height - 40);
         }
-
+        
         async function certificatePngBlob(card) {
           var width = 1123;
           var height = 794;
