@@ -30302,17 +30302,13 @@ Error generating stack: ` +
                           b.jsx("div", {
                             className: `issuer-signature-line${e.issuerSignature ? " has-signature" : ""}`,
                           }),
-                          b.jsxs("div", {
-                            className: "issuer-name-guide mb-[0.5mm] whitespace-nowrap",
-                            children: [
-                              b.jsx("span", { className: "issuer-name-paren", children: "(" }),
-                              b.jsx("span", {
-                                className: "issuer-name-dotted-line",
-                                children: e.issuerName || "",
-                              }),
-                              b.jsx("span", { className: "issuer-name-paren", children: ")" }),
-                            ],
-                          }),
+                          b.jsx("div", {
+  className: "issuer-name-guide mb-[0.5mm] whitespace-nowrap",
+  children: b.jsx("span", {
+    className: "issuer-name-text",
+    children: `(${e.issuerName || ""})`,
+  }),
+}),
                           b.jsxs("div", {
                             className: "mt-[0.3mm] flex flex-col items-center justify-center gap-[0.5mm]",
                             children: [

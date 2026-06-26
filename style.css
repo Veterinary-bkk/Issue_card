@@ -2390,11 +2390,42 @@
 
 .card-actual-size:not(:has(.card-front-title)) .space-y-\[1\.5mm\] span.shrink-0 {
   box-sizing: border-box !important;
-  flex: 0 0 14.5mm !important;
-  min-width: 14.5mm !important;
+  flex: 0 0 auto !important;
+  min-width: 0 !important;
   padding-left: 0 !important;
   text-align: left !important;
 }
 .card-actual-size:not(:has(.card-front-title)) .space-y-\[1\.5mm\] > div:nth-child(2) span.shrink-0 {
-  padding-left: 4.5mm !important;
+  padding-left: 0 !important;
+}
+
+/* Pull back-card name and affiliation values closer to their labels. */
+.card-actual-size:not(:has(.card-front-title)) .space-y-\[1\.5mm\] > div {
+  gap: 0.45mm !important;
+}
+
+.card-actual-size:not(:has(.card-front-title)) .space-y-\[1\.5mm\] span.flex-1 {
+  padding-left: 0.25mm !important;
+}
+/* ให้วงเล็บติดกับชื่อผู้ออกบัตร */
+.card-actual-size:not(:has(.card-front-title)) .issuer-name-guide {
+  width: fit-content !important;
+  min-height: 3.5mm !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  border-bottom: 0 !important;
+}
+
+.card-actual-size:not(:has(.card-front-title)) .issuer-name-text {
+  display: inline-block !important;
+  width: auto !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+  border-bottom: 0 !important;
 }
