@@ -1613,9 +1613,10 @@
         letter-spacing: 0 !important;
       }
       .card-front-meta .border-b {
-        border-bottom-style: dotted !important;
-        border-bottom-color: #000000 !important;
-      }
+  border-bottom: 0 !important;
+  border-bottom-width: 0 !important;
+  border-bottom-style: none !important;
+}
       .font-handwriting {
         font-family:
           Segoe Script,
@@ -1952,10 +1953,16 @@
         min-height: 0 !important;
         margin-top: -0.4mm !important;
       }
+
+      .card-actual-size:not(:has(.card-front-title)) .issuer-name-guide,
+      .card-actual-size:not(:has(.card-front-title)) .issuer-name-guide *,
+      .card-actual-size:not(:has(.card-front-title)) .issuer-name-text,
+      .card-actual-size:not(:has(.card-front-title)) .issuer-name-dotted-line,
       .card-actual-size:not(:has(.card-front-title)) .issuer-name-paren {
-        flex: 0 0 auto !important;
+        font-size: var(--card-title-font-size) !important;
         line-height: 1 !important;
       }
+
       .card-actual-size:not(:has(.card-front-title)) .issuer-name-dotted-line {
         flex: 1 1 auto !important;
         min-width: 0 !important;
