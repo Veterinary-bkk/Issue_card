@@ -30029,7 +30029,7 @@ Error generating stack: ` +
       function CertificatePreview({ card: e, logoSrc: r }) {
         const t = certificatePreviewDate(e.issueDate),
           i = e.issuerName || "",
-          l = e.issuerPosition || "ผู้อำนวยการสำนักงานสัตวแพทย์สาธารณสุข",
+          l = ISSUER_POSITION,
           f = window.__CERT_FRAME_ASSETS || {};
         return b.jsxs("div", {
           className: "certificate-preview-wrap",
@@ -30318,7 +30318,7 @@ Error generating stack: ` +
                               }),
                               b.jsx("span", {
                                 className: "max-w-[50mm] text-center border-b border-dotted border-slate-400 px-[1mm] pb-[0.8mm] pt-[0.2mm] text-[7px] font-semibold leading-[1.35] text-slate-900 sm:text-[8px]",
-                                children: e.issuerPosition || "ผู้อำนวยการ",
+                                children: ISSUER_POSITION,
                               }),
                             ],
                           }),
@@ -30420,7 +30420,7 @@ Error generating stack: ` +
         for (let i = 0; i < e.length; i += r) t.push(e.slice(i, i + r));
         return t;
       }
-      const Q5 = ["ผู้อำนวยการสำนักงานสัตวแพทย์สาธารณสุข", "ผู้อำนวยการสำนักอนามัย", "ผู้อำนวยการ", "รองผู้อำนวยการ", "ผู้ช่วยผู้อำนวยการ", "นายแพทย์สาธารณสุขจังหวัด", "รองนายแพทย์สาธารณสุขจังหวัด", "สาธารณสุขอำเภอ", "รองสาธารณสุขอำเภอ", "ผู้อำนวยการโรงพยาบาล", "รองผู้อำนวยการโรงพยาบาล", "หัวหน้าศูนย์บริการสาธารณสุข", "หัวหน้ากลุ่มงาน", "หัวหน้าฝ่าย", "ผู้อำนวยการเขต", "รองผู้อำนวยการเขต", "ปลัดอำเภอ", "แพทย์หญิง", "แพทย์ชาย", "สัตวแพทย์", "ผู้รับมอบหมาย"];
+      const Q5 = ["ผู้อำนวยการสำนักงานสัตวแพทย์สาธารณสุข"];
       function Z5({ card: e, onChange: r, onSave: t, onReset: i, onLoadDemo: l, onPrint: f, onGenerateNumber: u }) {
         const o = xt.useRef(null);
         function d(v, p) {
@@ -30574,7 +30574,7 @@ Error generating stack: ` +
                   label: "เลขประจำตัวประชาชน",
                   placeholder: "1-2345-67890-12-3",
                   value: e.citizenId,
-                  onChange: (v) => d("citizenId", v),
+                  onChange: (v) => d("citizenId", formatThaiCitizenId(v)),
                 }),
                 b.jsx(Hl, {
                   label: "ชื่อ - สกุล",
@@ -31150,12 +31150,12 @@ Error generating stack: ` +
         return {
           id: String(e.id || crypto.randomUUID()),
           cardNumber: String(e.cardNumber ?? ""),
-          citizenId: String(e.citizenId ?? ""),
+          citizenId: formatThaiCitizenId(e.citizenId),
           fullName: String(e.fullName ?? ""),
           affiliation: String(e.affiliation ?? ""),
           position: String(e.position ?? "อาสาสมัครสาธารณสุข (อสส.)"),
           issuingOffice: String(e.issuingOffice ?? "สำนักอนามัย กรุงเทพมหานคร"),
-          issuerPosition: String(e.issuerPosition ?? "ผู้อำนวยการ"),
+          issuerPosition: "ผู้อำนวยการสำนักงานสัตวแพทย์สาธารณสุข",
           issuerName: String(e.issuerName ?? ""),
           issuerSignature: String(e.issuerSignature ?? ""),
           issueDate: String(e.issueDate ?? ""),
@@ -31488,6 +31488,18 @@ Error generating stack: ` +
         });
       }
       const oC = 300 * 1e3;
+      const ISSUER_POSITION = "ผู้อำนวยการสำนักงานสัตวแพทย์สาธารณสุข";
+      function normalizeThaiDigits(e) {
+  return String(e ?? "")
+    .replace(/[๐-๙]/g, (r) => "๐๑๒๓๔๕๖๗๘๙".indexOf(r))
+    .replace(/\D/g, "");
+}
+
+function formatThaiCitizenId(e) {
+  const r = normalizeThaiDigits(e);
+  if (r.length !== 13) return String(e ?? "").trim();
+  return `${r.slice(0, 1)}-${r.slice(1, 5)}-${r.slice(5, 10)}-${r.slice(10, 12)}-${r.slice(12)}`;
+}
       function Fi() {
         return {
           id: crypto.randomUUID(),
@@ -31497,7 +31509,7 @@ Error generating stack: ` +
           affiliation: "",
           position: "อาสาสมัครสาธารณสุข (อสส.)",
           issuingOffice: "สำนักอนามัย กรุงเทพมหานคร",
-          issuerPosition: "ผู้อำนวยการ",
+          issuerPosition: "ผู้อำนวยการสำนักงานสัตวแพทย์สาธารณสุข",
           issuerName: "",
           issuerSignature: "",
           issueDate: "",
@@ -31602,8 +31614,15 @@ Error generating stack: ` +
           (setGlobalIssuerName(be), saveGlobalIssuerName(be) || ye("ไม่สามารถบันทึกชื่อผู้ออกบัตรได้"));
         }
         const ie = xt.useMemo(() => {
-            const pe = C.trim().toLowerCase();
-            return pe ? x.filter((be) => [be.cardNumber, be.citizenId, be.fullName, be.affiliation, be.position].join(" ").toLowerCase().includes(pe)) : x;
+            const pe = C.trim().toLowerCase(),
+              be = normalizeThaiDigits(C);
+            return pe
+              ? x.filter((Ue) => {
+                  const He = [Ue.cardNumber, Ue.citizenId, Ue.fullName, Ue.affiliation, Ue.position].join(" ").toLowerCase(),
+                    ht = normalizeThaiDigits(Ue.citizenId);
+                  return He.includes(pe) || (be && ht.includes(be));
+                })
+              : x;
           }, [x, C]),
           q = xt.useMemo(() => x.filter((pe) => p.includes(pe.id)), [x, p]),
           Se = xt.useMemo(() => {
@@ -31749,10 +31768,10 @@ Error generating stack: ` +
           if (((pe.currentTarget.value = ""), !!be))
             try {
               const Ue = await be.arrayBuffer(),
-                He = sh(Ue, { type: "array", cellDates: !0 }),
+                He = sh(Ue, { type: "array", cellDates: !1 }),
                 ht = He.Sheets[He.SheetNames[0]],
                 Pe = gn
-                  .sheet_to_json(ht, { defval: "" })
+                  .sheet_to_json(ht, { defval: "", raw: !0 })
                   .map(dC)
                   .filter((nt) => nt.fullName.trim());
               if (Pe.length === 0) {
@@ -31925,12 +31944,12 @@ Error generating stack: ` +
             ? {
                 id: crypto.randomUUID(),
                 cardNumber: String(pe.cardNumber ?? "").trim(),
-                citizenId: String(pe.citizenId ?? "").trim(),
+                citizenId: formatThaiCitizenId(pe.citizenId),
                 fullName: be,
                 affiliation: String(pe.affiliation ?? "").trim(),
                 position: String(pe.position ?? "").trim() || "อาสาสมัครสาธารณสุข (อสส.)",
                 issuingOffice: String(pe.issuingOffice ?? "").trim() || "สำนักอนามัย กรุงเทพมหานคร",
-                issuerPosition: String(pe.issuerPosition ?? "").trim() || "ผู้อำนวยการ",
+                issuerPosition: ISSUER_POSITION,
                 issuerName: String(pe.issuerName ?? "").trim(),
                 issuerSignature: String(pe.issuerSignature ?? ""),
                 issueDate: String(pe.issueDate ?? "").trim(),
@@ -32576,12 +32595,12 @@ Error generating stack: ` +
         return {
           id: crypto.randomUUID(),
           cardNumber: Ya(e, ["เลขที่บัตร", "เลขที่", "cardNumber", "card number"]),
-          citizenId: Ya(e, ["เลขประจำตัวประชาชน", "เลขประชาชน", "บัตรประชาชน", "citizenId", "citizen id"]),
+          citizenId: formatThaiCitizenId(Ya(e, ["เลขประจำตัวประชาชน", "เลขประชาชน", "บัตรประชาชน", "citizenId", "citizen id"])),
           fullName: r || `${t} ${i}`.trim(),
           affiliation: Ya(e, ["สังกัด", "หน่วยงาน", "affiliation"]),
           position: Ya(e, ["ตำแหน่ง", "position"]) || "อาสาสมัครสาธารณสุข (อสส.)",
           issuingOffice: Ya(e, ["หน่วยงานผู้ออกบัตร", "ผู้ออกบัตร", "issuingOffice", "issuing office"]) || "สำนักอนามัย กรุงเทพมหานคร",
-          issuerPosition: Ya(e, ["ตำแหน่งผู้ออกบัตร", "ผู้ออกบัตร", "issuerPosition", "issuer position"]) || "ผู้อำนวยการ",
+          issuerPosition: ISSUER_POSITION,
           issuerName: Ya(e, ["ชื่อผู้ออกบัตร", "ชื่อผู้ลงนาม", "issuerName", "issuer name"]) || "",
           issuerSignature: Ya(e, ["ลายเซ็นผู้ออกบัตร", "ลายเซ็น", "issuerSignature", "issuer signature"]) || "",
           issueDate: x2(uh(e, ["วันที่ออกบัตร", "วันออกบัตร", "issueDate", "issue date"])),
@@ -32622,7 +32641,7 @@ Error generating stack: ` +
         return String(e).trim();
       }
       function xC(e) {
-        return `${e.getFullYear()}-${ti(e.getMonth() + 1)}-${ti(e.getDate())}`;
+        return `${e.getUTCFullYear()}-${ti(e.getUTCMonth() + 1)}-${ti(e.getUTCDate())}`;
       }
       function ti(e) {
         return String(e).padStart(2, "0");
@@ -32747,7 +32766,7 @@ Error generating stack: ` +
         function buildCert(c) {
           var name = c.fullName || "";
           var date = thaiDate(c.issueDate || "");
-          var pos = c.issuerPosition || "ผู้อำนวยการสำนักงานสัตวแพทย์สาธารณสุข";
+          var pos = ISSUER_POSITION;
           var issuerName = c.issuerName || "";
           return (
             '<div class="cert-page"><div class="cert-outer">' +
