@@ -30017,13 +30017,17 @@ Error generating stack: ` +
 
       // วันที่แบบเต็มสำหรับตัวอย่างใบรับรอง เช่น 15 มกราคม 2569
       function certificatePreviewDate(e) {
-        if (!e) return "«วัน» เดือน «เดือน» พ.ศ. «ปี»";
-        const r = /^(\d{4})-(\d{2})-(\d{2})$/.exec(e);
-        if (!r) return e;
-        const [, t, i, l] = r,
-          f = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
-        return `${Number(l)} ${f[Number(i) - 1] || ""} ${Number(t) + 543}`;
-      }
+  const r = x2(e);
+  if (!r) return "«วัน» เดือน «เดือน» พ.ศ. «ปี»";
+
+  const t = /^(\d{4})-(\d{2})-(\d{2})$/.exec(r);
+  if (!t) return String(e ?? "").trim();
+
+  const [, i, l, f] = t,
+    u = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
+
+  return `${Number(f)} ${u[Number(l) - 1] || ""} ${Number(i) + 543}`;
+}
 
       // ตัวอย่างใบรับรองแบบ realtime ในหน้ากรอกข้อมูล
       function CertificatePreview({ card: e, logoSrc: r }) {
@@ -30380,14 +30384,18 @@ Error generating stack: ` +
         return r.length >= 2 ? r[0] + " / " + r.slice(1).join(" / ") : r[0] || "";
       }
       function l2(e) {
-        if (!e) return "";
-        const r = /^(\d{4})-(\d{2})-(\d{2})$/.exec(e);
-        if (!r) return e;
-        const [, t, i, l] = r,
-          f = Number(t) + 543,
-          a = ["ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ค", "มิ.ย", "ก.ค", "ส.ค", "ก.ย", "ต.ค", "พ.ย", "ธ.ค"][Number(i) - 1] || toTN(i);
-        return toTN(l) + " " + a + " " + toTN(String(f).slice(-2));
-      }
+  const r = x2(e);
+  if (!r) return "";
+
+  const t = /^(\d{4})-(\d{2})-(\d{2})$/.exec(r);
+  if (!t) return String(e ?? "").trim();
+
+  const [, i, l, f] = t,
+    u = Number(i) + 543,
+    o = ["ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ค", "มิ.ย", "ก.ค", "ส.ค", "ก.ย", "ต.ค", "พ.ย", "ธ.ค"][Number(l) - 1] || toTN(l);
+
+  return toTN(f) + " " + o + " " + toTN(String(u).slice(-2));
+}
       function q5({ cards: e, logoSrc: r, issuerSignature: n, issuerName: a }) {
         const t = K5(e, 5);
         return e.length === 0
@@ -31836,8 +31844,8 @@ function formatThaiCitizenId(e) {
               เลขประจำตัวประชาชน: He.citizenId,
               "ชื่อ-สกุล": He.fullName,
               สังกัด: He.affiliation,
-              วันที่ออกบัตร: He.issueDate,
-              วันหมดอายุ: He.expiryDate,
+              วันที่ออกบัตร: x2(He.issueDate),
+              วันหมดอายุ: x2(He.expiryDate),
             })),
             be = gn.json_to_sheet(pe);
           be["!cols"] = [{ wch: 16 }, { wch: 24 }, { wch: 30 }, { wch: 32 }, { wch: 16 }, { wch: 16 }];
@@ -31854,7 +31862,7 @@ function formatThaiCitizenId(e) {
               const Vt = String(nt ?? "").replace(/"/g, '""');
               return /[",\n]/.test(Vt) ? `"${Vt}"` : Vt;
             },
-            Ue = x.map((nt) => [nt.cardNumber, nt.citizenId, nt.fullName, nt.affiliation, nt.issueDate, nt.expiryDate].map(be).join(",")),
+            Ue = x.map((nt) => [nt.cardNumber, nt.citizenId, nt.fullName, nt.affiliation, x2(nt.issueDate), x2(nt.expiryDate)].map(be).join(",")),
             He =
               "\uFEFF" +
               [pe.join(","), ...Ue].join(`
@@ -31920,7 +31928,7 @@ function formatThaiCitizenId(e) {
         function Qe() {
           const pe = x.map((be) => {
             if (!be.issueDate || be.expiryDate) return be;
-            const Ue = /^(\d{4})-(\d{2})-(\d{2})$/.exec(be.issueDate);
+            const Ue = /^(\d{4})-(\d{2})-(\d{2})$/.exec(x2(be.issueDate));
             if (!Ue) return be;
             const [, He, ht, lt] = Ue,
               Pe = Number(He) + 3;
@@ -31952,8 +31960,8 @@ function formatThaiCitizenId(e) {
                 issuerPosition: ISSUER_POSITION,
                 issuerName: String(pe.issuerName ?? "").trim(),
                 issuerSignature: String(pe.issuerSignature ?? ""),
-                issueDate: String(pe.issueDate ?? "").trim(),
-                expiryDate: String(pe.expiryDate ?? "").trim(),
+                issueDate: x2(pe.issueDate),
+                expiryDate: x2(pe.expiryDate),
                 photo: String(pe.photo ?? ""),
               }
             : null;
@@ -32604,7 +32612,7 @@ function formatThaiCitizenId(e) {
           issuerName: Ya(e, ["ชื่อผู้ออกบัตร", "ชื่อผู้ลงนาม", "issuerName", "issuer name"]) || "",
           issuerSignature: Ya(e, ["ลายเซ็นผู้ออกบัตร", "ลายเซ็น", "issuerSignature", "issuer signature"]) || "",
           issueDate: x2(uh(e, ["วันที่ออกบัตร", "วันออกบัตร", "issueDate", "issue date"])),
-          expiryDate: x2(uh(e, ["วันหมดอายุ", "บัตรหมดอายุ", "expiryDate", "expiry date"])),
+          expiryDate: x2(uh(e, ["วันหมดอายุ", "วันที่หมดอายุ", "บัตรหมดอายุ", "วันที่บัตรหมดอายุ", "expiryDate", "expiry date"])),
           photo: "",
         };
       }
@@ -32631,18 +32639,105 @@ function formatThaiCitizenId(e) {
       function d2(e) {
         return e.toLowerCase().replace(/[\s_-]/g, "");
       }
-      function x2(e) {
-        if (!e) return "";
-        if (e instanceof Date && !Number.isNaN(e.getTime())) return xC(e);
-        if (typeof e == "number") {
-          const r = k2.parse_date_code(e);
-          if (r) return `${r.y}-${ti(r.m)}-${ti(r.d)}`;
-        }
-        return String(e).trim();
-      }
-      function xC(e) {
-        return `${e.getUTCFullYear()}-${ti(e.getUTCMonth() + 1)}-${ti(e.getUTCDate())}`;
-      }
+      function normalizeCardYear(e) {
+  const r = Number(e);
+  if (!Number.isFinite(r)) return NaN;
+
+  // ปี พ.ศ. เช่น 2571 -> 2028
+  if (r >= 2400) return r - 543;
+
+  // ปี 2 หลักแบบไทย เช่น 69, 70, 71 -> 2026, 2027, 2028
+  if (r < 100) return r >= 60 ? r + 1957 : r + 2000;
+
+  return r;
+}
+
+function toArabicDateText(e) {
+  return String(e ?? "")
+    .trim()
+    .replace(/[๐-๙]/g, (r) => "๐๑๒๓๔๕๖๗๘๙".indexOf(r));
+}
+
+function toIsoCardDate(e, r, t) {
+  const i = normalizeCardYear(e),
+    l = Number(r),
+    f = Number(t);
+
+  if (!Number.isFinite(i) || !Number.isFinite(l) || !Number.isFinite(f)) return "";
+
+  const u = new Date(i, l - 1, f);
+  if (u.getFullYear() !== i || u.getMonth() !== l - 1 || u.getDate() !== f) return "";
+
+  return `${i}-${ti(l)}-${ti(f)}`;
+}
+
+function x2(e) {
+  if (!e) return "";
+
+  // สำคัญ: ใช้วันที่แบบ local ห้ามใช้ UTC ไม่งั้น 31 ธ.ค. อาจกลายเป็น 30 ธ.ค.
+  if (e instanceof Date && !Number.isNaN(e.getTime())) return xC(e);
+
+  if (typeof e == "number") {
+    const r = k2.parse_date_code(e);
+    if (r) return toIsoCardDate(r.y, r.m, r.d);
+  }
+
+  const r = toArabicDateText(e);
+  if (!r) return "";
+
+  // YYYY-MM-DD หรือ YYYY/MM/DD
+  let t = /^(\d{4})[-/](\d{1,2})[-/](\d{1,2})$/.exec(r);
+  if (t) return toIsoCardDate(t[1], t[2], t[3]);
+
+  // DD/MM/YYYY, DD-MM-YYYY, DD/MM/71
+  t = /^(\d{1,2})[\/\-. ](\d{1,2})[\/\-. ](\d{2,4})$/.exec(r);
+  if (t) return toIsoCardDate(t[3], t[2], t[1]);
+
+  // 31 ธ.ค. 71 / 31 ธันวาคม 2571
+  t = /^(\d{1,2})\s*([ก-ฮ.]+)\s*(\d{2,4})$/.exec(r);
+  if (t) {
+    const i = {
+      มค: 1,
+      มกราคม: 1,
+      กพ: 2,
+      กุมภาพันธ์: 2,
+      มีค: 3,
+      มีนาคม: 3,
+      เมย: 4,
+      เมษายน: 4,
+      พค: 5,
+      พฤษภาคม: 5,
+      มิย: 6,
+      มิถุนายน: 6,
+      กค: 7,
+      กรกฎาคม: 7,
+      สค: 8,
+      สิงหาคม: 8,
+      กย: 9,
+      กันยายน: 9,
+      ตค: 10,
+      ตุลาคม: 10,
+      พย: 11,
+      พฤศจิกายน: 11,
+      ธค: 12,
+      ธันวาคม: 12,
+    };
+    const l = t[2].replace(/\./g, "").trim();
+    if (i[l]) return toIsoCardDate(t[3], i[l], t[1]);
+  }
+
+  // Excel serial ที่มาเป็นข้อความ
+  if (/^\d+(\.\d+)?$/.test(r)) {
+    const i = k2.parse_date_code(Number(r));
+    if (i) return toIsoCardDate(i.y, i.m, i.d);
+  }
+
+  return r;
+}
+
+function xC(e) {
+  return toIsoCardDate(e.getFullYear(), e.getMonth() + 1, e.getDate());
+}
       function ti(e) {
         return String(e).padStart(2, "0");
       }
@@ -32754,14 +32849,19 @@ function formatThaiCitizenId(e) {
         window.__CERT_FRAME_ASSETS = { corner: CORNER, divider: DIVIDER };
 
         function thaiDate(iso) {
-          if (!iso) return "«วัน» เดือน «เดือน» พ.ศ. «ปี»";
-          var p = iso.split("-"),
-            y = +p[0],
-            m = +p[1],
-            d = +p[2];
-          var mn = ["", "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
-          return d + " " + mn[m] + " " + (y + 543);
-        }
+  var normalized = x2(iso);
+  if (!normalized) return "«วัน» เดือน «เดือน» พ.ศ. «ปี»";
+
+  var p = normalized.split("-"),
+    y = +p[0],
+    m = +p[1],
+    d = +p[2];
+
+  var mn = ["", "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
+
+  if (!y || !m || !d) return String(iso || "");
+  return d + " " + mn[m] + " " + (y + 543);
+}
 
         function buildCert(c) {
           var name = c.fullName || "";
