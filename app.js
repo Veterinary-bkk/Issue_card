@@ -31497,17 +31497,123 @@ Error generating stack: ` +
       }
       const oC = 300 * 1e3;
       const ISSUER_POSITION = "ผู้อำนวยการสำนักงานสัตวแพทย์สาธารณสุข";
-      function normalizeThaiDigits(e) {
-  return String(e ?? "")
-    .replace(/[๐-๙]/g, (r) => "๐๑๒๓๔๕๖๗๘๙".indexOf(r))
-    .replace(/\D/g, "");
+      const LOGIN_USERNAME = "thankadmin";
+const LOGIN_PASSWORD = "1212312121";
+const LOGIN_STORAGE_KEY = "oss-card-login";
+
+function LoginScreen({ username: e, password: r, error: t, onChange: i, onSubmit: l }) {
+  return b.jsx("div", {
+    className: "login-page print:hidden",
+    children: b.jsxs("form", {
+      className: "login-card",
+      onSubmit: l,
+      children: [
+        b.jsx("div", { className: "login-icon", children: "🔐" }),
+        b.jsx("h1", { className: "login-title", children: "เข้าสู่ระบบ" }),
+        b.jsx("p", { className: "login-subtitle", children: "ระบบออกบัตร อสส." }),
+
+        b.jsxs("label", {
+          className: "login-field",
+          children: [
+            b.jsx("span", { children: "ชื่อผู้ใช้" }),
+            b.jsx("input", {
+              type: "text",
+              value: e,
+              autoFocus: true,
+              autoComplete: "username",
+              onChange: (f) => i("username", f.target.value),
+              placeholder: "กรอกชื่อผู้ใช้",
+            }),
+          ],
+        }),
+
+        b.jsxs("label", {
+          className: "login-field",
+          children: [
+            b.jsx("span", { children: "รหัสผ่าน" }),
+            b.jsx("input", {
+              type: "password",
+              value: r,
+              autoComplete: "current-password",
+              onChange: (f) => i("password", f.target.value),
+              placeholder: "กรอกรหัสผ่าน",
+            }),
+          ],
+        }),
+
+        t && b.jsx("div", { className: "login-error", children: t }),
+
+        b.jsx("button", {
+          type: "submit",
+          className: "login-submit",
+          children: "เข้าสู่ระบบ",
+        }),
+      ],
+    }),
+  });
 }
 
-function formatThaiCitizenId(e) {
-  const r = normalizeThaiDigits(e);
-  if (r.length !== 13) return String(e ?? "").trim();
-  return `${r.slice(0, 1)}-${r.slice(1, 5)}-${r.slice(5, 10)}-${r.slice(10, 12)}-${r.slice(12)}`;
+function AuthApp() {
+  const [e, r] = xt.useState(() => {
+      try {
+        return localStorage.getItem(LOGIN_STORAGE_KEY) === "1";
+      } catch {
+        return false;
+      }
+    }),
+    [t, i] = xt.useState({ username: "", password: "" }),
+    [l, f] = xt.useState("");
+
+  function u(x, v) {
+    i((p) => ({ ...p, [x]: v }));
+    l && f("");
+  }
+
+  function o(x) {
+    x.preventDefault();
+
+    if (t.username.trim() === LOGIN_USERNAME && t.password.trim() === LOGIN_PASSWORD) {
+      try {
+        localStorage.setItem(LOGIN_STORAGE_KEY, "1");
+      } catch {}
+
+      r(true);
+      f("");
+      i({ username: "", password: "" });
+    } else {
+      f("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+    }
+  }
+
+  function d() {
+    try {
+      localStorage.removeItem(LOGIN_STORAGE_KEY);
+    } catch {}
+
+    r(false);
+  }
+
+  return e
+    ? b.jsx(hC, { onLogout: d })
+    : b.jsx(LoginScreen, {
+        username: t.username,
+        password: t.password,
+        error: l,
+        onChange: u,
+        onSubmit: o,
+      });
 }
+      function normalizeThaiDigits(e) {
+        return String(e ?? "")
+          .replace(/[๐-๙]/g, (r) => "๐๑๒๓๔๕๖๗๘๙".indexOf(r))
+          .replace(/\D/g, "");
+      }
+
+      function formatThaiCitizenId(e) {
+        const r = normalizeThaiDigits(e);
+          if (r.length !== 13) return String(e ?? "").trim();
+        return `${r.slice(0, 1)}-${r.slice(1, 5)}-${r.slice(5, 10)}-${r.slice(10, 12)}-${r.slice(12)}`;
+      }
       function Fi() {
         return {
           id: crypto.randomUUID(),
@@ -31577,7 +31683,7 @@ function formatThaiCitizenId(e) {
           issuerPosition: "ผู้อำนวยการสำนักงานสัตวแพทย์สาธารณสุข",
         },
       ];
-      function hC() {
+      function hC({ onLogout } = {}) {
         const e = xt.useRef(null),
           r = xt.useRef(null),
           t = xt.useRef(null),
@@ -32041,6 +32147,13 @@ function formatThaiCitizenId(e) {
                             }),
                         ],
                       }),
+                      onLogout &&
+                        b.jsx("button", {
+                          type: "button",
+                          onClick: onLogout,
+                          className: "logout-button",
+                          children: "ออกจากระบบ",
+                        }),
                     ],
                   }),
                 ],
@@ -32834,7 +32947,7 @@ function xC(e) {
       }
       Xy.createRoot(document.getElementById("root")).render(
         b.jsx(xt.StrictMode, {
-          children: b.jsx(mC, { children: b.jsx(hC, {}) }),
+          children: b.jsx(mC, { children: b.jsx(AuthApp, {}) }),
         }),
       );
       // ===== CERT v5 =====
